@@ -12,8 +12,21 @@ fun main() {
 
     println("Tree paths with sum expect 2: ${countPaths(root, 23)}")
     println("Tree paths with sum expect 2: ${countPaths(secondRoot, 12)}")
+
+    val thirdRoot = TreeNode(1)
+    thirdRoot.left = TreeNode(7)
+    thirdRoot.right = TreeNode(9, TreeNode(2), TreeNode(9))
+    println("Sum of path numbers expect 408: ${sumPathNumbers(thirdRoot, 0)}")
 }
 
+fun sumPathNumbers(root: TreeNode?, sum: Int): Int {
+    if(root == null) return 0
+
+    val newSum = sum * 10 + root.value
+    if(root.left == null && root.right == null) return newSum
+
+    return sumPathNumbers(root.left, newSum) + sumPathNumbers(root.right, newSum)
+}
 fun countPaths(root: TreeNode?, target: Int): Int {
     if(root == null) return 0
     var count = 0
