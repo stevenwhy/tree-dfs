@@ -35,10 +35,8 @@ fun findCountOfPathsWhichSumToTarget(root: TreeNode?, arr: ArrayDeque<Int>, targ
     var pathSum = 0
     var pathCount = 0
     val pathIterator: ListIterator<Int> = arr.listIterator(arr.size)
-    println("going to iterate over $arr")
     while(pathIterator.hasPrevious()) {
         val current = pathIterator.previous()
-        println("pathSum: $pathSum and current: $current")
         pathSum += current
         if(pathSum == target) pathCount++
     }
