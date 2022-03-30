@@ -1,4 +1,5 @@
 import java.util.*
+import kotlin.collections.ArrayDeque
 
 fun main() {
 
@@ -21,8 +22,33 @@ fun main() {
     println("Sum of path numbers expect 408: ${sumPathNumbers(thirdRoot, 0)}")
 
     println("Find if tree has path 1,9,9 expect true: ${findPath(thirdRoot, LinkedList(listOf(1,9,9)))}")
+
+    println("Count # of Paths which sum to target 12 expect 2: ${findCountOfPathsWhichSumToTarget(root, ArrayDeque(), 11)}")
 }
 
+fun findCountOfPathsWhichSumToTarget(root: TreeNode?, arr: ArrayDeque<Int>, target: Int): Int {
+    if(root == null) return 0
+
+    arr.add(root.value)
+
+    // find sum of all subpaths, meaning get all adjacent sums inside arr
+    var pathSum = 0
+    var pathCount = 0
+    val pathIterator: ListIterator<Int> = arr.listIterator(arr.size)
+    println("going to iterate over $arr")
+    while(pathIterator.hasPrevious()) {
+        val current = pathIterator.previous()
+        println("pathSum: $pathSum and current: $current")
+        pathSum += current
+        if(pathSum == target) pathCount++
+    }
+    pathCount += findCountOfPathsWhichSumToTarget(root.left, arr, target)
+    pathCount += findCountOfPathsWhichSumToTarget(root.right, arr, target)
+
+    arr.removeLast()
+
+    return pathCount
+}
 fun findPath(root: TreeNode?, arr: LinkedList<Int>): Boolean {
     if(root == null){
         return arr.isEmpty()
