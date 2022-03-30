@@ -1,3 +1,5 @@
+import java.util.*
+
 fun main() {
 
     val root = TreeNode(12)
@@ -17,8 +19,21 @@ fun main() {
     thirdRoot.left = TreeNode(7)
     thirdRoot.right = TreeNode(9, TreeNode(2), TreeNode(9))
     println("Sum of path numbers expect 408: ${sumPathNumbers(thirdRoot, 0)}")
+
+    println("Find if tree has path 1,9,9 expect true: ${findPath(thirdRoot, LinkedList(listOf(1,9,9)))}")
 }
 
+fun findPath(root: TreeNode?, arr: LinkedList<Int>): Boolean {
+    if(root == null){
+        return arr.isEmpty()
+    }
+    if(arr.isEmpty()) return true
+    return if(arr.first == root.value) {
+        // pop value go recursion
+        arr.removeFirst()
+        findPath(root.left, arr) || findPath(root.right, arr)
+    } else false
+}
 fun sumPathNumbers(root: TreeNode?, sum: Int): Int {
     if(root == null) return 0
 
